@@ -45,5 +45,8 @@ jobs:
             git sparse-checkout set --no-cone /dist
             git checkout
             cd $GITHUB_WORKSPACE
+            git add $GITHUB_WORKSPACE/$folder_name
           done
+          git commit -m "update"
+          git push origin main
           echo "Current directory after cloning: $(pwd)"
