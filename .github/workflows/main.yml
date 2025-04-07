@@ -26,15 +26,15 @@ jobs:
 
       - name: Convert repo_urls input to array
         id: convert
-        run: echo "::set-output name=repos::$(echo \${{ github.event.inputs.repo_urls }} | jq -c .)"
+        run: echo "::set-output name=repos::$(echo ${{ github.event.inputs.repo_urls }} | jq -c .)"
 
       - name: Clone repositories
         run: |
-          repos=\${{ steps.convert.outputs.repos }}
-          for repo in \$(echo $repos | jq -r '.[]'); do
-            folder_name=\$(basename \$repo)
-            git clone -n --depth=1 --filter=tree:0 \$repo ./\$folder_name
-            cd ./\$folder_name
+          repos=${{ steps.convert.outputs.repos }}
+          for repo in $(echo $repos | jq -r '.[]'); do
+            folder_name=$(basename \$repo)
+            git clone -n --depth=1 --filter=tree:0 $repo ./$folder_name
+            cd ./$folder_name
             git sparse-checkout set --no-cone /dist
             git checkout
             cd ..
