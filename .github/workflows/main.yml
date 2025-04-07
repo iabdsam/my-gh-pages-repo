@@ -1,0 +1,41 @@
+name: Clone Repositories
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_urls:
+        description: "List of repository URLs to clone"
+        required: true
+        default: '["https://github.com/iabdsam/test1", "https://github.com/iabdsam/test2"]'
+        type: string
+
+jobs:
+  clone_repos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install jq
+        run: sudo apt-get install jq
+
+      - name: Convert repo_urls input to array
+        id: convert
+        run: echo "::set-output name=repos::$(echo \${{ github.event.inputs.repo_urls }} | jq -c .)"
+
+      - name: Clone repositories
+        run: |
+          repos=\${{ steps.convert.outputs.repos }}
+          for repo in \$(echo $repos | jq -r '.[]'); do
+            folder_name=\$(basename \$repo)
+            git clone -n --depth=1 --filter=tree:0 \$repo ./\$folder_name
+            cd ./\$folder_name
+            git sparse-checkout set --no-cone /dist
+            git checkout
+            cd ..
+          done
