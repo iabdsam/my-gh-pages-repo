@@ -30,6 +30,8 @@ jobs:
 
       - name: Clone repositories
         run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           repos='${{ steps.convert.outputs.repos }}'
           echo "Current directory before cloning: $(pwd)"
           for repo in $(echo $repos | jq -r '.[]'); do
@@ -43,6 +45,7 @@ jobs:
             fi
             cd $GITHUB_WORKSPACE/$folder_name
             git sparse-checkout set --no-cone /dist
+            sudo rm -rf .git
             git checkout
             cd $GITHUB_WORKSPACE
             git add $GITHUB_WORKSPACE/$folder_name
