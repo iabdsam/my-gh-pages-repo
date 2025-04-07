@@ -6,7 +6,7 @@ on:
       repo_urls:
         description: "List of repository URLs to clone"
         required: true
-        default: '["https://github.com/iabdsam/test1", "https://github.com/iabdsam/test2"]'
+        default: '[\"https://github.com/iabdsam/test1\", \"https://github.com/iabdsam/test2\"]'
         type: string
 
 jobs:
