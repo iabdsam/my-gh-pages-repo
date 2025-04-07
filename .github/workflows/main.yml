@@ -45,7 +45,6 @@ jobs:
             fi
             cd $GITHUB_WORKSPACE/$folder_name
             git sparse-checkout set --no-cone /dist
-            sudo rm -rf .git
             git checkout
             cd $GITHUB_WORKSPACE
             git add $GITHUB_WORKSPACE/$folder_name
