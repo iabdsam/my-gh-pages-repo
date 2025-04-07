@@ -9,6 +9,9 @@ on:
         default: '[\"https://github.com/iabdsam/test1\", \"https://github.com/iabdsam/test2\"]'
         type: string
 
+permissions:
+  contents: write
+
 jobs:
   clone_repos:
     runs-on: ubuntu-latest
