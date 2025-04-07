@@ -33,7 +33,7 @@ jobs:
           repos='${{ steps.convert.outputs.repos }}'
           echo "Current directory before cloning: $(pwd)"
           for repo in $(echo $repos | jq -r '.[]'); do
-            folder_name=$(basename \$repo)
+            folder_name=$(basename $repo)
             echo "Cloning repository: $repo into folder: $folder_name"
             git clone -n --depth=1 --filter=tree:0 $repo $GITHUB_WORKSPACE/$folder_name
             if [ -d "$GITHUB_WORKSPACE/$folder_name" ]; then
